@@ -13,41 +13,45 @@ public class Main {
         A, B, C;
     }
 
-    public static class Motor {
+    public static class M {
         private int power;
         private String fuel;
 
+        // get power
         public int getPower() {
             return power;
         }
 
+        // set power
         public void setPower(int power) {
             this.power = power;
         }
 
+        // get fuel
         public String getFuel() {
             return fuel;
         }
 
+        // set fuel
         public void setFuel(String fuel) {
             this.fuel = fuel;
         }
 
-        public Motor(int power, String fuel) {
+        public M(int power, String fuel) {
             this.power = power;
             this.fuel = fuel;
         }
     }
 
-    public static class Car {
+    public static class C {
         private String model;
         private int year;
         private String flag;
-        private Motor motor;
+        private M motor;
         private double price;
         private STATES state;
 
-        public Car (String model, String flag, int year, Motor motor, double price, STATES state) {
+        public C(String model, String flag, int year, M motor, double price, STATES state) {
             this.model = model;
             this.year = year;
             this.flag = flag;
@@ -56,39 +60,47 @@ public class Main {
             this.state = state;
         }
 
+        // get model definition
         public String getModel() {
             return model;
         }
 
+        // set model definition
         public void setModel(String model) {
             this.model = model;
         }
 
+        // get year definition
         public int getYear() {
             return year;
         }
 
+        // set year definition
         public void setYear(int year) {
             this.year = year;
         }
 
+        // get flag definition
         public String getFlag() {
             return flag;
         }
 
+        // set flag definition
         public void setFlag(String flag) {
             this.flag = flag;
         }
 
-        public Motor getMotor() {
+        // get motor definition
+        public M getMotor() {
             return motor;
         }
 
-        public void setMotor(Motor motor) {
+        // set motor definition
+        public void setMotor(M motor) {
             this.motor = motor;
         }
 
-        public void calculateTax() {
+        public void calc() {
             int rate = 0;
             if (this.state == STATES.A) {
                 rate = 2;
@@ -114,11 +126,11 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Motor v8 = new Motor(200, "Diesel");
-        Motor v3 = new Motor(100, "Diesel");
-        Car ferrari = new Car("ferrari", "abc-123", 2019, v8, 500.000, STATES.A);
-        Car fox = new Car("fox", "abc-321", 2019, v3, 200.000, STATES.C);
-        ferrari.calculateTax();
-        fox.calculateTax();
+        M v8 = new M(200, "Diesel");
+        M v3 = new M(100, "Diesel");
+        C c = new C("ferrari", "abc-123", 2019, v8, 500.000, STATES.A);
+        C c2 = new C("fox", "abc-321", 2019, v3, 200.000, STATES.C);
+        c.calc();
+        c2.calc();
     }
 }
