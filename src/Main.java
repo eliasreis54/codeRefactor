@@ -13,7 +13,7 @@ public class Main {
         A, B, C;
     }
 
-    public static class M {
+    public static class Motor {
         private int power;
         private String fuel;
 
@@ -37,99 +37,220 @@ public class Main {
             this.fuel = fuel;
         }
 
-        public M(int power, String fuel) {
+        public Motor(int power, String fuel) {
             this.power = power;
             this.fuel = fuel;
         }
     }
 
-    public static class C {
-        private String model;
-        private int year;
-        private String flag;
-        private M motor;
-        private double price;
-        private STATES state;
+    interface Vehicle {
+        public boolean notShouldPayIpva();
+        public double getIpvaPrice();
+        public void openDoor();
+        public void closeDoor();
+    }
+
+    public static class C implements Vehicle {
+        private String mdl;
+        private int yr;
+        private String fl;
+        private Motor m;
+        private double pr;
+        private STATES st;
+        private boolean doorOpen = false;
 
         public C(String model, String flag, int year, M motor, double price, STATES state) {
-            this.model = model;
-            this.year = year;
-            this.flag = flag;
-            this.motor = motor;
-            this.price = price;
-            this.state = state;
+            this.mdl = model;
+            this.yr = year;
+            this.fl = flag;
+            this.m = motor;
+            this.pr = price;
+            this.st = state;
         }
 
         // get model definition
-        public String getModel() {
-            return model;
+        public String getMdl() {
+            return mdl;
         }
 
         // set model definition
-        public void setModel(String model) {
-            this.model = model;
+        public void setMdl(String mdl) {
+            this.mdl = mdl;
         }
 
         // get year definition
-        public int getYear() {
-            return year;
+        public int getYr() {
+            return yr;
         }
 
         // set year definition
-        public void setYear(int year) {
-            this.year = year;
+        public void setYr(int yr) {
+            this.yr = yr;
         }
 
         // get flag definition
-        public String getFlag() {
-            return flag;
+        public String getFl() {
+            return fl;
         }
 
         // set flag definition
-        public void setFlag(String flag) {
-            this.flag = flag;
+        public void setFl(String fl) {
+            this.fl = fl;
         }
 
         // get motor definition
-        public M getMotor() {
-            return motor;
+        public Motor getM() {
+            return m;
         }
 
         // set motor definition
-        public void setMotor(M motor) {
-            this.motor = motor;
+        public void setM(Motor motor) {
+            this.m = motor;
         }
 
         public void calc() {
-            int rate = 0;
-            if (this.state == STATES.A) {
+            int rate;
+            rate = 0;
+            if (this.st == STATES.A) {
                 rate = 2;
             }
-            if (this.state == STATES.B) {
+            if (this.st == STATES.B) {
                 rate = 4;
             }
-            if (this.state == STATES.C) {
+            if (this.st == STATES.C) {
                 rate = 12;
             }
-            if (this.motor.power >= 200) {
-                double tax = (float) ((this.year/2) + this.price*rate);
+            if (this.m.power >= 200) {
+                double tax;
+                tax = (float) ((this.yr /2) + this.pr *rate);
                 tax = Math.pow(tax, 3);
                 System.out.println(tax);
             }
-            if (this.motor.power < 200) {
-                double tax = (float) ((this.year/2) + this.price*rate);
+            if (this.m.power < 200) {
+                double tax;
+                tax = (float) ((this.yr /2) + this.pr *rate);
                 tax = Math.pow(tax, 2);
                 System.out.println(tax);
             }
         }
+
+        public boolean notShouldPayIpva() {
+            if (this.yr - 2019 >= 20)
+                return true;
+            return false;
+        }
+
+        public double getIpvaPrice() {
+            double p;
+            double i;
+
+            p = this.pr;
+            i = 0.04 * p;
+
+            return i;
+        }
+
+        public void openDoor() {
+            if (this.doorOpen == false)
+                this.doorOpen = true;
+        }
+
+        public void closeDoor() {
+            if (this.doorOpen == true)
+                this.doorOpen = false;
+        }
     }
 
+    public static class M implements Vehicle() {
+        private String mdl;
+        private int yr;
+        private String fl;
+        private Motor m;
+        private double pr;
+
+        public M(String model, String flag, int year, M motor, double price) {
+            this.mdl = model;
+            this.yr = year;
+            this.fl = flag;
+            this.m = motor;
+            this.pr = price;
+        }
+
+        // get model definition
+        public String getMdl() {
+            return mdl;
+        }
+
+        // set model definition
+        public void setMdl(String mdl) {
+            this.mdl = mdl;
+        }
+
+        // get year definition
+        public int getYr() {
+            return yr;
+        }
+
+        // set year definition
+        public void setYr(int yr) {
+            this.yr = yr;
+        }
+
+        // get flag definition
+        public String getFl() {
+            return fl;
+        }
+
+        // set flag definition
+        public void setFl(String fl) {
+            this.fl = fl;
+        }
+
+        // get motor definition
+        public Motor getM() {
+            return m;
+        }
+
+        // set motor definition
+        public void setM(Motor motor) {
+            this.m = motor;
+        }
+
+        public boolean notShouldPayIpva() {
+            if (this.yr - 2019 >= 20)
+                return true;
+            return false;
+        }
+
+        public double getIpvaPrice() {
+            double p;
+            double i;
+
+            p = this.pr;
+            i = 0.04 * p;
+
+            return i;
+        }
+
+        public void openDoor() {
+            System.out.println("Moto não tem porta!")
+        }
+
+        public void closeDoor() {
+            System.out.println("Moto não tem porta!")
+        }
+    }
 
     public static void main(String[] args) {
-        M v8 = new M(200, "Diesel");
-        M v3 = new M(100, "Diesel");
-        C c = new C("ferrari", "abc-123", 2019, v8, 500.000, STATES.A);
-        C c2 = new C("fox", "abc-321", 2019, v3, 200.000, STATES.C);
+        Motor v8 = new Motor(200, "Diesel");
+        Motor v3 = new Motor(100, "Diesel");
+
+        C c = new C("ferrari", "abc-123", 2019, v8, 500000, STATES.A);
+        C c2 = new C("fox", "abc-321", 2019, v3, 200000, STATES.C);
+
+        M m = new M("CG 160", "def-456", 2018, v3, 10000);
+        M m2 = new M("Fazer 150", "def-654", 2018, v3, 11000);
+
         c.calc();
         c2.calc();
     }
