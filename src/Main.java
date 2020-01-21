@@ -17,6 +17,11 @@ public class Main {
         ferrari.calc();
         fox.calc();
 
+        ferrari.openDoor();
+        ferrari.isDoorOpen();
+        ferrari.closeDoor();
+        ferrari.isDoorOpen();
+
         CG.calc();
         fazer.calc();
     }
