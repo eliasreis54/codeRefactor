@@ -1,12 +1,17 @@
+package Domains;
+
+import Enums.FixedTax;
+import Enums.States;
+
 public abstract class Vehicle {
     private String model;
     private int year;
     private String flag;
     private Engine engine;
     private double price;
-    private STATES state;
+    private States state;
 
-    public Vehicle(String model, int year, String flag, Engine engine, double price, STATES state) {
+    public Vehicle(String model, int year, String flag, Engine engine, double price, States state) {
         this.model = model;
         this.year = year;
         this.flag = flag;
@@ -43,7 +48,7 @@ public abstract class Vehicle {
         return Math.pow(tax, fixedTax.getValue());
     };
 
-    void calc() {
+    public void calc() {
         if (this.engine.getPower() >= 200) {
             System.out.println(formula(FixedTax.POWER_GE_200));
         }
@@ -80,11 +85,11 @@ public abstract class Vehicle {
         this.price = price;
     }
 
-    public STATES getState() {
+    public States getState() {
         return state;
     }
 
-    public void setState(STATES state) {
+    public void setState(States state) {
         this.state = state;
     }
 }

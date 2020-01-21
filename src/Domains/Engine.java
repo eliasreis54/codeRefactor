@@ -1,3 +1,5 @@
+package Domains;
+
 public class Engine {
     private int power;
     private String fuel;

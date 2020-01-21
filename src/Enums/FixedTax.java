@@ -1,3 +1,5 @@
+package Enums;
+
 public enum FixedTax {
     POWER_GE_200(3), POWER_LT_200(2);
 
