@@ -44,10 +44,10 @@ public class Main {
     }
 
     interface Vehicle {
-        public boolean notShouldPayIpva();
-        public double getIpvaPrice();
-        public void openDoor();
-        public void closeDoor();
+        public boolean notShouldPay();
+        public double price();
+        public void oD();
+        public void cD();
     }
 
     public static class C implements Vehicle {
@@ -59,7 +59,7 @@ public class Main {
         private STATES st;
         private boolean doorOpen = false;
 
-        public C(String model, String flag, int year, M motor, double price, STATES state) {
+        public C(String model, String flag, int year, Motor motor, double price, STATES state) {
             this.mdl = model;
             this.yr = year;
             this.fl = flag;
@@ -134,13 +134,13 @@ public class Main {
             }
         }
 
-        public boolean notShouldPayIpva() {
+        public boolean notShouldPay() {
             if (this.yr - 2019 >= 20)
                 return true;
             return false;
         }
 
-        public double getIpvaPrice() {
+        public double price() {
             double p;
             double i;
 
@@ -150,30 +150,32 @@ public class Main {
             return i;
         }
 
-        public void openDoor() {
+        public void oD() {
             if (this.doorOpen == false)
                 this.doorOpen = true;
         }
 
-        public void closeDoor() {
+        public void cD() {
             if (this.doorOpen == true)
                 this.doorOpen = false;
         }
     }
 
-    public static class M implements Vehicle() {
+    public static class M implements Vehicle {
         private String mdl;
         private int yr;
         private String fl;
         private Motor m;
         private double pr;
+        private STATES st;
 
-        public M(String model, String flag, int year, M motor, double price) {
+        public M(String model, String flag, int year, Motor motor, double price, STATES state) {
             this.mdl = model;
             this.yr = year;
             this.fl = flag;
             this.m = motor;
             this.pr = price;
+            this.st = state;
         }
 
         // get model definition
@@ -216,13 +218,13 @@ public class Main {
             this.m = motor;
         }
 
-        public boolean notShouldPayIpva() {
+        public boolean notShouldPay() {
             if (this.yr - 2019 >= 20)
                 return true;
             return false;
         }
 
-        public double getIpvaPrice() {
+        public double price() {
             double p;
             double i;
 
@@ -232,12 +234,38 @@ public class Main {
             return i;
         }
 
-        public void openDoor() {
-            System.out.println("Moto não tem porta!")
+        public void oD() {
+            System.out.println("Moto não tem porta!");
         }
 
-        public void closeDoor() {
-            System.out.println("Moto não tem porta!")
+        public void cD() {
+            System.out.println("Moto não tem porta!");
+        }
+
+        public void calc() {
+            int rate;
+            rate = 0;
+            if (this.st == STATES.A) {
+                rate = 2;
+            }
+            if (this.st == STATES.B) {
+                rate = 4;
+            }
+            if (this.st == STATES.C) {
+                rate = 12;
+            }
+            if (this.m.power >= 200) {
+                double tax;
+                tax = (float) ((this.yr /2) + this.pr *rate);
+                tax = Math.pow(tax, 3);
+                System.out.println(tax);
+            }
+            if (this.m.power < 200) {
+                double tax;
+                tax = (float) ((this.yr /2) + this.pr *rate);
+                tax = Math.pow(tax, 2);
+                System.out.println(tax);
+            }
         }
     }
 
@@ -248,8 +276,8 @@ public class Main {
         C c = new C("ferrari", "abc-123", 2019, v8, 500000, STATES.A);
         C c2 = new C("fox", "abc-321", 2019, v3, 200000, STATES.C);
 
-        M m = new M("CG 160", "def-456", 2018, v3, 10000);
-        M m2 = new M("Fazer 150", "def-654", 2018, v3, 11000);
+        M m = new M("CG 160", "def-456", 2018, v3, 10000, STATES.B);
+        M m2 = new M("Fazer 150", "def-654", 2018, v3, 11000, STATES.A);
 
         c.calc();
         c2.calc();
